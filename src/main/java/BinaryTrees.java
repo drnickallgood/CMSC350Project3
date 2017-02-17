@@ -1,108 +1,97 @@
 /**
  * Created by nallgood on 2/16/17.
  */
-public class BinaryTrees<T extends Comparable> {
+import java.util.*;
+import java.io.*;
 
-    // Default Constructor
+class BinaryTrees<T extends Comparable<T>> {
 
     // This will be the starting/root node
-    public TreeNode rootNode;
-    private T gottenNode;
+    public TreeNode<T> rootNode;
 
+    // Constructor initilizes the tree
+    public BinaryTrees(T value) {
 
-    // Need to create the tree from user Input
-    public void initTree() {
-
+        rootNode = new TreeNode<T>(value, null, null);
 
     }
 
+    public void add(T value) {
+
+        TreeNode<T> node = new TreeNode<T>(value,null,null);
+        addNode(rootNode, node);
+    }
+
+    // Hidden method to be used internally to add a node to the tree
+    private TreeNode<T> addNode(TreeNode<T> lastNode, TreeNode<T> newNode) {
+
+        // We don't have any nodes so let's add one
+        if(lastNode == null) {
+
+            lastNode = newNode;
+
+        }
+        // If our last value is less than the current nodes value
+        // Then stick it on the left side of the tree
+        else if((lastNode.value).compareTo(newNode.value) < 0) {
+
+            lastNode.rightNode = addNode(lastNode.rightNode, newNode);
+        }
+        // The new node value is either the same or greater
+        // Requirements specify to allow duplicate entries so we don't have
+        // to do much more work
+        else {
+
+            lastNode.leftNode = addNode(lastNode.leftNode, newNode);
+        }
+
+        return lastNode;
+
+    }
     // -- Printing trees  -- //
 
-    // This traversed the tree structure in order by
-    // starting with the first root node
-    // it then calls a helper method to print things
-    // in the actual order.
-    public void traverseInOrder() {
+    public void printInOrder(TreeNode<T> root) {
 
-        traverseInOrderHelper(rootNode);
-        //System.out.println("");
-    }
-
-    public void traverseInOrderHelper(TreeNode lastRoot) {
-
-        if(lastRoot == null) {
+        if(root == null) {
 
             return;
         }
-        traverseInOrderHelper(lastRoot.leftNode);
-        //System.out.println(rootNode.value+", ");
-        traverseInOrderHelper(lastRoot.rightNode);
+        // Print left tree
+
+        printInOrder(root.leftNode);
+        // Actual Data to be printed
+        System.out.println(root.value);
+        printInOrder(root.rightNode);
+
 
     }
 
-    // Keeping this as generic as we can so we can pass
-    // multiple types to it in the future
-    public void add(T toAdd) {
+    public TreeNode<T> getNode() {
 
-        TreeNode node = new TreeNode<T>(toAdd);
-
-        // Check root
-        if (rootNode == null) {
-
-            rootNode = node;
-        }
-
-        addHelper(rootNode, node);
+        return rootNode;
     }
 
-
-    // Since we cannot do operator overloading like we can in
-    // C++, we need to extends the comparable class so we can
-    // Directly compare objects correct.
+    public static void main(String[] args) {
 
 
-    // Helper function above that is recursive
-    // This is so we can focus on only being recursive and adding
-    // the node while the above method takes care of single items
-    private void addHelper(TreeNode lastRoot, TreeNode node) {
 
-        // Currently using int's here so we need to see
-        // which is bigger
-        // Uses the compareTo custom method above.
+        // Populate the tree
+        BinaryTrees<Integer> tree = new BinaryTrees<Integer>(100);
+        tree.add(50);
+        tree.add(40);
+        tree.add(30);
+        tree.add(20);
+        tree.add(500);
+        tree.add(10);
+        tree.add(750);
 
-        if(lastRoot.compareTo(node) > 0) {
+        // Get the root node
+        TreeNode rootNode = tree.getNode();
 
-            if(lastRoot.leftNode == null) {
+        tree.printInOrder(rootNode);
 
-                // We currently don't have a left node for the root
-                // so let's add it and return
-                lastRoot.leftNode = node;
-            }
-            else {
-
-                // Otherwise we recursively call this function
-                // again to continue adding to the tree.
-                addHelper(lastRoot.leftNode, node);
-            }
-
-        }
-        else {  // Let us check the right side now
-
-            if(lastRoot.rightNode == null) {
-
-                lastRoot.rightNode = node;
-            }
-            else {
-
-                // Recursively call this function
-                // for the right side of the node.
-                addHelper(lastRoot.rightNode, node);
-            }
-
-        }
 
     }
-
 
 
 }

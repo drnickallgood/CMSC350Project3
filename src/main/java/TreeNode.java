@@ -1,17 +1,19 @@
 /**
  * Created by nallgood on 2/16/17.
  */
-public class TreeNode<T> {
+ public class TreeNode<T extends Comparable<T>> {
 
-    public T toInsert;
-    public TreeNode leftNode;
-    public TreeNode rightNode;
+    public T value;
+    public TreeNode<T> leftNode;
+    public TreeNode<T>  rightNode;
 
-    public TreeNode(T toInsert) {
 
-        this.toInsert = toInsert;
-        this.leftNode = null;
-        this.rightNode = null;
+    public TreeNode(T value, TreeNode left, TreeNode right) {
+
+        this.leftNode = left;
+        this.rightNode = right;
+        this.value = value;
+
     }
 
 
@@ -20,12 +22,12 @@ public class TreeNode<T> {
     // But the compareTo actually returns the comparison of
     // The data they are trying to insert
 
-    public int compareTo(TreeNode<T> node) {
+    public int compareTo(TreeNode node) {
 
         // So here we get an integer result of comparing both
         // Objects
 
-        return ((Comparable) this.toInsert).compareTo(node.toInsert);
+        return ((Comparable) this.value).compareTo(node.value);
 
     }
 }

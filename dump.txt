@@ -1,0 +1,132 @@
+
+
+    public void add(T toAdd) {
+
+        node = new TreeNode(toAdd);
+
+        // Check root
+        if (rootNode == null) {
+
+            rootNode = new TreeNode(toAdd);
+        }
+
+        addHelper(rootNode, toAdd);
+    }
+
+
+    // Since we cannot do operator overloading like we can in
+    // C++, we need to extends the comparable class so we can
+    // Directly compare objects correct.
+
+
+    // Helper function above that is recursive
+    // This is so we can focus on only being recursive and adding
+    // the node while the above method takes care of single items
+    private void addHelper(TreeNode lastRoot, TreeNode node) {
+
+        // Currently using int's here so we need to see
+        // which is bigger
+        // Uses the compareTo custom method above.
+
+        if(lastRoot.compareTo(node) > 0) {
+
+            if(lastRoot.leftNode == null) {
+
+                // We currently don't have a left node for the root
+                // so let's add it and return
+                lastRoot.leftNode = node;
+            }
+            else {
+
+                // Otherwise we recursively call this function
+                // again to continue adding to the tree.
+                addHelper(lastRoot.leftNode, node);
+            }
+
+        }
+        else {  // Let us check the right side now
+
+            if(lastRoot.rightNode == null) {
+
+                lastRoot.rightNode = node;
+            }
+            else {
+
+                // Recursively call this function
+                // for the right side of the node.
+                addHelper(lastRoot.rightNode, node);
+            }
+
+        }
+
+    }
+
+    // -- Printing trees  -- //
+
+    // This traversed the tree structure in order by
+    // starting with the first root node
+    // it then calls a helper method to print things
+    // in the actual order.
+    public void traverseInOrder() {
+
+        traverseInOrderHelper(rootNode);
+        System.out.println("");
+    }
+
+    public void traverseInOrderHelper(TreeNode lastRoot) {
+
+        if(lastRoot == null) {
+
+            return;
+        }
+
+        traverseInOrderHelper(lastRoot.leftNode);
+        System.out.println(rootNode.toInsert+", ");
+        traverseInOrderHelper(lastRoot.rightNode);
+
+    }
+
+    // Keeping this as generic as we can so we can pass
+    // multiple types to it in the future
+// Create a new list to store the nodes in the tree
+        List<T> treeList = new ArrayList<T>();
+
+        // Create a FIFO queue containing a linked list of all of our nodes
+        // for easy printing
+        Queue<TreeNode<T>> treeQueue = new LinkedList<TreeNode<T>>();
+
+        // Add the first node to the queue
+        treeQueue.add(rootNode);
+
+        while(!treeQueue.isEmpty()) {
+
+            // Gets the head of the queue
+            TreeNode<T> node = treeQueue.poll();
+
+            // Adds it to the list
+            treeList.add(node.value);
+
+            if(node.leftNode != null) {
+
+                treeQueue.add(node.leftNode);
+            }
+            if(node.rightNode != null) {
+
+                treeQueue.add(node.rightNode);
+
+            }
+        }
+
+        return treeList;
+
+            // This traversed the tree structure in order by
+            // starting with the first root node
+            // it then calls a helper method to print things
+            // in the actual order.
+            public static <T> void printTree(List<T> treeList) {
+
+                for(T i: treeList) {
+
+                    System.out.println(i);
+                }
+            }
