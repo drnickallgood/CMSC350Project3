@@ -66,14 +66,51 @@ class BinaryTrees<T extends Comparable<T>> {
 
     }
 
+    public void printRevOrder(TreeNode<T> root) {
+
+        if(root == null) {
+
+            return;
+        }
+
+        printRevOrder(root.rightNode);
+        System.out.println(root.value);
+        printRevOrder(root.leftNode);
+    }
+
     public TreeNode<T> getNode() {
 
         return rootNode;
     }
 
+
+    // Need to create the tree from user Input
+    public void buildTreeWithInput(String input) {
+
+        // loop through input and call add to get tree
+        // List of strings, split on whitespace
+        List<String> parsed = Arrays.asList(input.split("\\s+"));
+
+        // List iterator
+        ListIterator<String> parsedIter = parsed.listIterator();
+
+        // Sanity placeholder
+        String current;
+
+        // Iterate through the string
+        while (parsedIter.hasNext()) {
+
+            // Get element
+            current = parsedIter.next();
+
+            // Create new node with the value from the list
+
+        }
+
+    }
+
+
     public static void main(String[] args) {
-
-
 
         // Populate the tree
         BinaryTrees<Integer> tree = new BinaryTrees<Integer>(100);
@@ -92,6 +129,7 @@ class BinaryTrees<T extends Comparable<T>> {
 
 
     }
+
 
 
 }
