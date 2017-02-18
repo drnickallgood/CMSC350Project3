@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.List;
 
 /* This class sets up a nicer frame for display */
 class NiceFrame extends JFrame {
@@ -115,8 +116,9 @@ class ButtonsPanel extends JPanel {
         // Going to have to get the actions
         // Getting thse from the radio buttons pannel
         String sortCmd = cPanel.getSortCmd();
-
         String numCmd = cPanel.getNumCmd();
+        Queue<Fraction> fracQ = new LinkedList<Fraction>();
+        Queue<String> numQ = new LinkedList<String>();
 
         // Keeping this relatively crude and simple
         // The sortCmd returns what the radio Button string is
@@ -126,34 +128,76 @@ class ButtonsPanel extends JPanel {
         // String i: Integer
         // String f: Fraction
 
-        if(sortCmd.equals("a")) {
+        // Not getting Sort Commands liek i expect
+        //bPanel.ioPanel.setResultTxt(numCmd);
 
-            // integer
-            if(numCmd.equals("i")) {
+    // Need try/catch for Number Format Exception
 
-                // Print Integers in Ascending order
+        if(numCmd.equals("i")) {    //Integer
+
+            //Create First Node.. it's a string of integers
+            // Add strings to queue
+            List<String> numSplit = Arrays.asList(expr.split("\\s+"));
+
+            for(String i : numSplit) {
+
+                numQ.add(i);
             }
-            else {
 
-                // Print Fractions in Ascending order
+            // Create new tree starting with the first integer on the queue
+            BinaryTrees<String> iTree = new BinaryTrees<String>(numQ.poll());
+            TreeNode rootNode = iTree.getNode();
+
+            // Loop through and populate the binary tree the rest of the way
+            for(String i : numQ) {
+
+                iTree.add(i);
+            }
+
+            if(sortCmd.equals("a")) {   // Ascending
+
+                bPanel.ioPanel.setResultTxt(iTree.printInOrder(rootNode));
+            }
+            else {  // Descending
+
+                bPanel.ioPanel.setResultTxt(iTree.printRevOrder(rootNode));
             }
         }
-        else {      // descending order
+        else {      // Fraction
 
-            if(numCmd.equals("i")) {
+            // Create a list of fractions
+            List<String> fracSplit = Arrays.asList(expr.split("\\s+"));
+            Fraction exprFrac;
 
-                // Print Integers in descending order
+            // Here we create a fraction from each item in the list
+            // We hten store it in the queue
+            for(String i : fracSplit) {
+
+                exprFrac = new Fraction(i);
+                fracQ.add(exprFrac);
             }
-            else {
 
-                // Print Fractions in descending order
+            // Remove first Fraction from queue
+            BinaryTrees<Fraction> fTree = new BinaryTrees<Fraction>(fracQ.poll());
+            TreeNode rootNode = fTree.getNode();
+
+            // Loop through and populate the binary tree the rest of the way
+            for(Fraction i : fracQ) {
+
+                fTree.add(i);
+            }
+
+            if(sortCmd.equals("a")) {   // Ascending
+
+                bPanel.ioPanel.setResultTxt(fTree.printInOrder(rootNode));
+            }
+            else {  // Descending
+
+                bPanel.ioPanel.setResultTxt(fTree.printRevOrder(rootNode));
             }
 
         }
 
-        //rootNode = bsTree.buildTreeWithInput(expr);
-
-        //bPanel.ioPanel.setResultTxt(rootNode.inOrderWalk());
     }
 
 
@@ -166,6 +210,7 @@ class SortRadioPanel extends JPanel implements ActionListener {
     private JRadioButton descRbtn = new JRadioButton("Descending");
     private CombRadioPanel bPanel;
     private String sortCmd;
+
 
 
     private ButtonGroup bgSort = new ButtonGroup();
@@ -196,7 +241,7 @@ class SortRadioPanel extends JPanel implements ActionListener {
                 BorderFactory.createEtchedBorder(), "Sort Order"));
 
         //setContentPane(sortPanel);
-        add(sortPanel);
+        bPanel.add(sortPanel);
 
     }
 
@@ -206,6 +251,7 @@ class SortRadioPanel extends JPanel implements ActionListener {
         // Get Radio Button Actione.getActionCommand();
         //asc = ascending order
         //desc = descending order
+
         sortCmd = e.getActionCommand();
 
     }
@@ -214,8 +260,11 @@ class SortRadioPanel extends JPanel implements ActionListener {
     // Sort COmmand will be either a or d
     public String getCommand() {
 
+        sortCmd = bgSort.getSelection().getActionCommand();
         return sortCmd;
     }
+
+
 }
 
 class NumRadioPanel extends JPanel implements ActionListener {
@@ -253,7 +302,7 @@ class NumRadioPanel extends JPanel implements ActionListener {
                 BorderFactory.createEtchedBorder(), "Numeric Type"));
 
         //setContentPane(numPanel);
-        add(numPanel);
+        bPanel.add(numPanel);
 
     }
 
@@ -268,6 +317,7 @@ class NumRadioPanel extends JPanel implements ActionListener {
     // Number Command will either be string i or f
     public String getCommand() {
 
+        numCmd = bgNum.getSelection().getActionCommand();
         return numCmd;
     }
 }
@@ -293,6 +343,7 @@ class CombRadioPanel extends JPanel {
 
         return sPanel.getCommand();
     }
+
 
     public String getNumCmd() {
 

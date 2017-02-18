@@ -1,6 +1,8 @@
 /**
  * Created by nallgood on 2/16/17.
  */
+import javax.swing.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
@@ -8,6 +10,8 @@ class BinaryTrees<T extends Comparable<T>> {
 
     // This will be the starting/root node
     public TreeNode<T> rootNode;
+    StringBuilder revString = new StringBuilder();
+    StringBuilder inOrderString = new StringBuilder();
 
     // Constructor initilizes the tree
     public BinaryTrees(T value) {
@@ -50,65 +54,46 @@ class BinaryTrees<T extends Comparable<T>> {
     }
     // -- Printing trees  -- //
 
-    public void printInOrder(TreeNode<T> root) {
+    public String printInOrder(TreeNode<T> root) {
 
         if(root == null) {
 
-            return;
+            return null;
         }
         // Print left tree
 
         printInOrder(root.leftNode);
         // Actual Data to be printed
-        System.out.println(root.value);
+        //System.out.println(root.value);
+        inOrderString.append(root.value+" ");
         printInOrder(root.rightNode);
 
+        return inOrderString.toString();
 
     }
 
-    public void printRevOrder(TreeNode<T> root) {
+    public String printRevOrder(TreeNode<T> root) {
 
         if(root == null) {
 
-            return;
+            return null;
         }
 
         printRevOrder(root.rightNode);
-        System.out.println(root.value);
+        //System.out.println(root.value);
+
+        //Instead of printing to cli we build up a string
+        revString.append(root.value+" ");
         printRevOrder(root.leftNode);
+
+        // Convert from string builder object back to string
+        return revString.toString();
     }
 
     public TreeNode<T> getNode() {
 
         return rootNode;
     }
-
-
-    // Need to create the tree from user Input
-    public void buildTreeWithInput(String input) {
-
-        // loop through input and call add to get tree
-        // List of strings, split on whitespace
-        List<String> parsed = Arrays.asList(input.split("\\s+"));
-
-        // List iterator
-        ListIterator<String> parsedIter = parsed.listIterator();
-
-        // Sanity placeholder
-        String current;
-
-        // Iterate through the string
-        while (parsedIter.hasNext()) {
-
-            // Get element
-            current = parsedIter.next();
-
-            // Create new node with the value from the list
-
-        }
-
-    }
-
 
     public static void main(String[] args) {
 
@@ -135,14 +120,45 @@ class BinaryTrees<T extends Comparable<T>> {
         //String testFrac = "3/4";
        // String test2Frac = "2/3";
 
+        /*
         String badFrac = "1/2/3";
         String manyFrac = "1/2 3/4 5/8 3/2 4/9 7/16 5/32 1/8";
+        String numString = "3 4 100 9 50 23";
         Fraction myFrac = null;
 
         // Create list from string of fracs
         List<String> splitter = Arrays.asList(manyFrac.split("\\s+"));
         Queue<Fraction> fracQ = new LinkedList<Fraction>();
 
+        List<String> numSplit = Arrays.asList(numString.split("\\s+"));
+        Queue<String> numQ = new LinkedList<String>();
+
+        // Loop through num list and add to queue of numbers
+        for(String i : numSplit) {
+
+            //numQ.add(Integer.parseInt(i));
+            //numQ.add(i);
+            numQ.add(i);
+
+        }
+
+        for(String i : numQ) {
+
+            System.out.println(i);
+        }
+        */
+/*
+        // Create new binary tree based on Integers
+        BinaryTrees<Integer> bTree = new BinaryTrees<Integer>(numQ.poll());
+        TreeNode rootNode = bTree.getNode();
+
+        String inOrder = bTree.printInOrder(rootNode);
+        System.out.println(inOrder);
+        System.out.println("---");
+        String revOrder = bTree.printRevOrder(rootNode);
+        System.out.println(revOrder);
+
+*/
         // Comparing Fractions
         //Fraction myFrac1 = new Fraction(testFrac);
         //Fraction myFrac2 = new Fraction(test2Frac);
@@ -206,7 +222,7 @@ class BinaryTrees<T extends Comparable<T>> {
         //System.out.println("---");
         //ftree.printRevOrder(rootNode);
 
-
+/*
         for(String frac : splitter) {
 
             // Crete single fraction object
@@ -217,7 +233,8 @@ class BinaryTrees<T extends Comparable<T>> {
             }
             catch(NumberFormatException e) {
 
-                System.out.println("Non Numeric Input");
+                //System.out.println("Non Numeric Input");
+                JOptionPane.showMessageDialog(null, "Non Numeric Input", "Error!", JOptionPane.ERROR_MESSAGE);
             }
 
             // Add new fractions to the queue
@@ -238,10 +255,16 @@ class BinaryTrees<T extends Comparable<T>> {
         }
 
         TreeNode rootNode = ftree.getNode();
+        String inOrder;
+        String revOrder;
 
-        ftree.printInOrder(rootNode);
+        inOrder = ftree.printInOrder(rootNode);
+        System.out.println(inOrder);
         System.out.println("---");
-        ftree.printRevOrder(rootNode);
+        revOrder = ftree.printRevOrder(rootNode);
+        System.out.println(revOrder);
+*/
+
 
 
     }
