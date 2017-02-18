@@ -141,6 +141,16 @@ class ButtonsPanel extends JPanel {
 
             for(String i : numSplit) {
 
+                // Try to see if we really have an integer
+                try {
+                    Integer.parseInt(i);
+                }
+                catch(NumberFormatException e) {
+
+                    JOptionPane.showMessageDialog(null, "Non Numeric Input", "Error!", JOptionPane.ERROR_MESSAGE);
+
+
+                }
                 numQ.add(i);
             }
 
@@ -173,8 +183,16 @@ class ButtonsPanel extends JPanel {
             // We hten store it in the queue
             for(String i : fracSplit) {
 
-                exprFrac = new Fraction(i);
-                fracQ.add(exprFrac);
+                try {
+
+                    exprFrac = new Fraction(i);
+                    fracQ.add(exprFrac);
+                }
+                catch(NumberFormatException e) {
+
+                    JOptionPane.showMessageDialog(null, "Non Numeric Input", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+
             }
 
             // Remove first Fraction from queue
