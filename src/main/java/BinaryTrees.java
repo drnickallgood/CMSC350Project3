@@ -10,20 +10,31 @@ class BinaryTrees<T extends Comparable<T>> {
 
     // This will be the starting/root node
     public TreeNode<T> rootNode;
+
     StringBuilder revString = new StringBuilder();
     StringBuilder inOrderString = new StringBuilder();
+    private T value;
 
     // Constructor initilizes the tree
     public BinaryTrees(T value) {
 
-        rootNode = new TreeNode<T>(value, null, null);
+        // This is the root node and gets add
+        //rootNode = new TreeNode<T>(null, null, value);
+        //rootNode = new TreeNode(value);
+        this.value = value;
+
+        //Initialize the root node
+        rootNode = new TreeNode<T>(value);
 
     }
 
+    // This sets up the root node and adds a node too it
     public void add(T value) {
 
-        TreeNode<T> node = new TreeNode<T>(value,null,null);
+
+        TreeNode<T> node = new TreeNode<T>(value);
         addNode(rootNode, node);
+
     }
 
     // Hidden method to be used internally to add a node to the tree
@@ -52,9 +63,10 @@ class BinaryTrees<T extends Comparable<T>> {
         return lastNode;
 
     }
+
     // -- Printing trees  -- //
 
-    public String printInOrder(TreeNode<T> root) {
+    public String printInOrder(TreeNode root) {
 
         if(root == null) {
 
@@ -72,7 +84,7 @@ class BinaryTrees<T extends Comparable<T>> {
 
     }
 
-    public String printRevOrder(TreeNode<T> root) {
+    public String printRevOrder(TreeNode root) {
 
         if(root == null) {
 
@@ -90,9 +102,50 @@ class BinaryTrees<T extends Comparable<T>> {
         return revString.toString();
     }
 
-    public TreeNode<T> getNode() {
+    public TreeNode getNode() {
 
         return rootNode;
     }
+
+
+
+    public static void main(String[] args) {
+
+       // String numInput = "12 -1 4 300 1000";
+
+        String numInput = "44 10 444 2 11";
+        //String numInput = "5 2 4 1 9";
+        //String numInput = "50 20 40 10 90";
+      // String numInput = "44 33 -5 55 94 -3 40";
+        //String numInput = "1000 1 55555 999 300 250 1150";
+        // DOES NOT WORK
+        //String numInput = "98 99 7 96 -55 9999 -9999 124 598 -1 -45";
+
+        Queue<String> numQ = new LinkedList<String>();
+        List<String> numSplit = Arrays.asList(numInput.split("\\s+"));
+
+        for(String i : numSplit) {
+
+            numQ.add(i);
+        }
+
+        BinaryTrees<String> tree = new BinaryTrees<String>(numQ.poll());
+
+        // Get the root node
+        TreeNode newNode = tree.getNode();
+
+        for(String i : numQ) {
+
+            tree.add(i);
+            //newNode = tree.getNode();
+            //tree.newAdd(newNode, i);
+        }
+
+       System.out.println(tree.printInOrder(newNode));
+        //System.out.println(tree.printRevOrder(newNode));
+
+
+    }
+
 
 }

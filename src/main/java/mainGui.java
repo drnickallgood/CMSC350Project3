@@ -128,11 +128,6 @@ class ButtonsPanel extends JPanel {
         // String i: Integer
         // String f: Fraction
 
-        // Not getting Sort Commands liek i expect
-        //bPanel.ioPanel.setResultTxt(numCmd);
-
-    // Need try/catch for Number Format Exception
-
         if(numCmd.equals("i")) {    //Integer
 
             //Create First Node.. it's a string of integers
