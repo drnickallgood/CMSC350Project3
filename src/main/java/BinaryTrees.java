@@ -113,28 +113,32 @@ class BinaryTrees<T extends Comparable<T>> {
 
        // String numInput = "12 -1 4 300 1000";
 
-        String numInput = "44 10 444 2 11";
+        //String numInput = "44 10 444 2 11";
         //String numInput = "5 2 4 1 9";
         //String numInput = "50 20 40 10 90";
       // String numInput = "44 33 -5 55 94 -3 40";
         //String numInput = "1000 1 55555 999 300 250 1150";
         // DOES NOT WORK
-        //String numInput = "98 99 7 96 -55 9999 -9999 124 598 -1 -45";
+        String numInput = "98 99 7 96 -55 9999 -9999 124 598 -1 -45";
 
-        Queue<String> numQ = new LinkedList<String>();
+       //Queue<String> numQ = new LinkedList<String>();
+        Queue<Integer> numQ = new LinkedList<Integer>();
+        //List<String> numSplit = Arrays.asList(numInput.split("\\s+"));
         List<String> numSplit = Arrays.asList(numInput.split("\\s+"));
 
         for(String i : numSplit) {
 
-            numQ.add(i);
+            numQ.add(Integer.parseInt(i));
+            //numQ.add(i);
         }
 
-        BinaryTrees<String> tree = new BinaryTrees<String>(numQ.poll());
+        // Converts to ints
+        BinaryTrees<Integer> tree = new BinaryTrees<Integer>(numQ.poll());
 
         // Get the root node
         TreeNode newNode = tree.getNode();
 
-        for(String i : numQ) {
+        for(Integer i : numQ) {
 
             tree.add(i);
             //newNode = tree.getNode();

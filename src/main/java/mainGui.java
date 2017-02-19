@@ -118,7 +118,7 @@ class ButtonsPanel extends JPanel {
         String sortCmd = cPanel.getSortCmd();
         String numCmd = cPanel.getNumCmd();
         Queue<Fraction> fracQ = new LinkedList<Fraction>();
-        Queue<String> numQ = new LinkedList<String>();
+        Queue<Integer> numQ = new LinkedList<Integer>();
 
         // Keeping this relatively crude and simple
         // The sortCmd returns what the radio Button string is
@@ -138,7 +138,7 @@ class ButtonsPanel extends JPanel {
 
                 // Try to see if we really have an integer
                 try {
-                    Integer.parseInt(i);
+                    numQ.add(Integer.parseInt(i));
                 }
                 catch(NumberFormatException e) {
 
@@ -146,15 +146,15 @@ class ButtonsPanel extends JPanel {
 
 
                 }
-                numQ.add(i);
+
             }
 
             // Create new tree starting with the first integer on the queue
-            BinaryTrees<String> iTree = new BinaryTrees<String>(numQ.poll());
+            BinaryTrees<Integer> iTree = new BinaryTrees<Integer>(numQ.poll());
             TreeNode rootNode = iTree.getNode();
 
             // Loop through and populate the binary tree the rest of the way
-            for(String i : numQ) {
+            for(Integer i : numQ) {
 
                 iTree.add(i);
             }
